@@ -1,0 +1,73 @@
+{
+  "company": {
+    "name": "TechCo",
+    "location": {
+      "city": "Silicon Valley",
+      "country": "USA"
+    },
+    "employees": [
+      {
+        "name": "Alice",
+        "age": 35,
+        "position": "Software Engineer",
+        "projects": [
+          {
+            "name": "Project A",
+            "status": "In Progress",
+            "tasks": [
+              {
+                "title": "Implement Feature X",
+                "assignedTo": "Alice",
+                "deadline": "2024-03-31"
+              },
+              {
+                "title": "Bug Fixing",
+                "assignedTo": "Bob",
+                "deadline": "2024-04-15"
+              }
+            ]
+          },
+          {
+            "name": "Project B",
+            "status": "Completed",
+            "tasks": [
+              {
+                "title": "Optimize Performance",
+                "assignedTo": "Charlie",
+                "deadline": "2024-03-20"
+              },
+              {
+                "title": "Testing",
+                "assignedTo": "Alice",
+                "deadline": "2024-04-05"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Bob",
+        "age": 40,
+        "position": "UX Designer",
+        "projects": [
+          {
+            "name": "Project C",
+            "status": "Planned",
+            "tasks": [
+              {
+                "title": "Create Wireframes",
+                "assignedTo": "Bob",
+                "deadline": "2024-04-10"
+              },
+              {
+                "title": "User Testing",
+                "assignedTo": "Alice",
+                "deadline": "2024-05-01"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
