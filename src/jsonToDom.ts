@@ -24,13 +24,13 @@ export type Config = {
 
 const pre = (text: string, styling?: Styling) => {
   if (!styling)
-    return `<pre style="position: relative; margin:0">${text}</pre>`;
+    return `<pre style="position: relative; white-space: pre-wrap; margin:0">${text}</pre>`;
 
   const css = Object.entries(styling)
     .map(([field, color]) => `--json-to-dom-${field}:${color};`)
     .join("");
 
-  return `<pre style="position: relative; margin:0; ${css}">${text}</pre>`;
+  return `<pre style="position: relative; white-space: pre-wrap; margin:0; ${css}">${text}</pre>`;
 };
 
 const span = (variable: string) => (value: string) =>
