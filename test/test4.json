@@ -1,0 +1,20 @@
+{
+  "scriptingLanguages": {
+    "javascript": {
+      "description": "A high-level, interpreted programming language.",
+      "codeExample": "console.log('Hello, World!');"
+    },
+    "python": {
+      "description": "An easy-to-learn, high-level programming language.",
+      "codeExample": "print('Hello, World!')"
+    },
+    "ruby": {
+      "description": "A dynamic, object-oriented programming language.",
+      "codeExample": "puts 'Hello, World!'"
+    }
+  },
+  "jsonWithCode": {
+    "description": "An example of JSON with embedded code.",
+    "codeExample": "{ \"key\": \"value\", \"array\": [1, 2, 3], \"object\": { \"nestedKey\": \"nestedValue\" } }"
+  }
+}

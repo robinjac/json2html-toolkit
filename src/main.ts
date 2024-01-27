@@ -1,6 +1,6 @@
 import "./style.css";
 import { mount } from "./jsonToDom.ts";
-import testJSON from "../test/test.json";
+import testJSON from "../test/test4.json";
 
 const styling = {
   field: "gray",

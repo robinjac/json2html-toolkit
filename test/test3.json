@@ -1,0 +1,22 @@
+{
+  "song": {
+    "title": "Mötley Crüe - Dr. Feelgood",
+    "artist": "Mötley Crüe",
+    "lyrics": "He's the one that calls like he sees,\nHe'll go down in history,\nNothin' but a wild side,\nLoaded way back, what a wild ride!",
+    "description": "A rock song with an energetic vibe and rebellious spirit.",
+    "rating": 4.7,
+    "releaseDate": "1989-09-01",
+    "isExplicit": true,
+    "genres": ["Hard Rock", "Glam Metal"],
+    "comments": [
+      {
+        "user": "RockFan_123",
+        "text": "This song is a classic! 🤘"
+      },
+      {
+        "user": "MetalHead_456",
+        "text": "One of the best tracks from Mötley Crüe! 🔥"
+      }
+    ]
+  }
+}
