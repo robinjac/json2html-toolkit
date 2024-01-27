@@ -56,9 +56,9 @@ const spanNumber =
 const toString = (json: JSONValue, space?: number) =>
   JSON.stringify(json, undefined, space ?? 2);
 
-export const toJsonHtmlString = (json: JSONValue, config?: Config) => {
-  // Be careful with the ordering here, can mess upp the regex
-  const withSpans = toString(json, config?.space)
+export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
+  // Be careful with the ordering here, can mess upp the regex replacement
+  const withSpans = toString(json, config.space)
     .replace(/"([^"]+)":/g, spanField("--json-to-dom-field"))
     .replace(/:\s*("[^"]*")/g, spanString("--json-to-dom-string"))
     .replace(/[\{\}]/g, span("--json-to-dom-braces"))
@@ -71,5 +71,14 @@ export const toJsonHtmlString = (json: JSONValue, config?: Config) => {
     .replace(/\bnull\b/g, span("--json-to-dom-null"))
     .replace(/:\s*(?=(?:(?:[^"]*"){2})*[^"]*$)/g, span("--json-to-dom-semi"))
     .replace(/(?<!\w|")\s*,\s*(?!\w|")/g, span("--json-to-dom-comma"));
-  return pre(withSpans, config?.styling);
+  return pre(withSpans, config.styling);
+};
+
+export const mount = (
+  selector: string,
+  json: JSONValue,
+  config: Config = {}
+) => {
+  document.querySelector<HTMLButtonElement>(selector)!.innerHTML =
+    toJsonHtmlString(json, config);
 };
