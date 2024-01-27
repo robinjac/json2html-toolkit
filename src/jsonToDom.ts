@@ -56,17 +56,15 @@ const toString = (json: JSONValue, space?: number) =>
 
 export const toJsonHtmlString = (json: JSONValue, space?: number) => {
   const withSpans = toString(json, space)
-    .replace(/\{/g, span("--Json-To-Dom-Braces"))
-    .replace(/\}/g, span("--Json-To-Dom-Braces"))
-    .replace(/\[/g, span("--Json-To-Dom-Brackets"))
-    .replace(/\]/g, span("--Json-To-Dom-Brackets"))
+    .replace(/"([^"]*)"/g, span("--Json-To-Dom-String"))
+    .replace(/[\{\}]/g, span("--Json-To-Dom-Braces"))
+    .replace(/[\[\]]/g, span("--Json-To-Dom-Brackets"))
     .replace(
       /(-?\b0*[1-9]\d*(\.\d+)?\b)|("[^"]*")/g,
       spanNumber("--Json-To-Dom-Number")
     )
     .replace(/\b(?:true|false)\b/g, span("--Json-To-Dom-Boolean"))
-    // .replace(/'[^']*'|"[^"]*"/g, span("--Json-To-Dom-String"))
     .replace(/\bnull\b/g, span("--Json-To-Dom-Null"))
-    .replace(/"([^"]*)"\s*:/g, span("--Json-To-Dom-Field"));
+    //.replace(/"([^"]*)"\s*:/g, span("--Json-To-Dom-Field"));
   return pre(styling, withSpans);
 };
