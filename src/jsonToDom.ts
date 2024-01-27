@@ -12,28 +12,28 @@ export type JSONValue =
   | JSONArray;
 
 export type Styling = {
-  Field?: string;
-  Number?: string;
-  String?: string;
-  Null?: string;
-  Boolean?: string;
-  Braces?: string;
-  Brackets?: string;
+  field?: string;
+  number?: string;
+  string?: string;
+  null?: string;
+  boolean?: string;
+  braces?: string;
+  brackets?: string;
 };
 
 const styling = {
-  Field: "gray",
-  Number: "lightBlue",
-  String: "green",
-  Null: "teal",
-  Boolean: "purple",
-  Braces: "orange",
-  Brackets: "red",
+  field: "gray",
+  number: "lightBlue",
+  string: "green",
+  null: "teal",
+  boolean: "purple",
+  braces: "orange",
+  brackets: "red",
 };
 
 const pre = (styling: Styling, text: string) => {
   const css = Object.entries(styling)
-    .map(([field, color]) => `--Json-To-Dom-${field}:${color};`)
+    .map(([field, color]) => `--json-to-dom-${field}:${color};`)
     .join("");
 
   return `<pre style="position: relative; margin:0; ${css}">${text}</pre>`;
@@ -62,17 +62,19 @@ const spanNumber =
 const toString = (json: JSONValue, space?: number) =>
   JSON.stringify(json, undefined, space ?? 2);
 
+
 export const toJsonHtmlString = (json: JSONValue, space?: number) => {
+  // Be careful with the ordering here, can mess upp the regex
   const withSpans = toString(json, space)
-    .replace(/"([^"]+)":/g, spanField("--Json-To-Dom-Field"))
-    .replace(/:\s*("[^"]*")/g, spanString("--Json-To-Dom-String"))
-    .replace(/[\{\}]/g, span("--Json-To-Dom-Braces"))
-    .replace(/[\[\]]/g, span("--Json-To-Dom-Brackets"))
+    .replace(/"([^"]+)":/g, spanField("--json-to-dom-field"))
+    .replace(/:\s*("[^"]*")/g, spanString("--json-to-dom-string"))
+    .replace(/[\{\}]/g, span("--json-to-dom-braces"))
+    .replace(/[\[\]]/g, span("--json-to-dom-brackets"))
     .replace(
       /(-?\b0*[1-9]\d*(\.\d+)?\b)|("[^"]*")/g,
-      spanNumber("--Json-To-Dom-Number")
+      spanNumber("--json-to-dom-number")
     )
-    .replace(/\b(?:true|false)\b/g, span("--Json-To-Dom-Boolean"))
-    .replace(/\bnull\b/g, span("--Json-To-Dom-Null"));
+    .replace(/\b(?:true|false)\b/g, span("--json-to-dom-boolean"))
+    .replace(/\bnull\b/g, span("--json-to-dom-null"));
   return pre(styling, withSpans);
 };
