@@ -19,6 +19,8 @@ export type Styling = {
   boolean?: string;
   braces?: string;
   brackets?: string;
+  semi?: string;
+  comma?: string;
 };
 
 const styling = {
@@ -29,6 +31,8 @@ const styling = {
   boolean: "purple",
   braces: "orange",
   brackets: "red",
+  comma: "yellow",
+  semi: "hotPink",
 };
 
 const pre = (styling: Styling, text: string) => {
@@ -62,7 +66,6 @@ const spanNumber =
 const toString = (json: JSONValue, space?: number) =>
   JSON.stringify(json, undefined, space ?? 2);
 
-
 export const toJsonHtmlString = (json: JSONValue, space?: number) => {
   // Be careful with the ordering here, can mess upp the regex
   const withSpans = toString(json, space)
@@ -75,6 +78,8 @@ export const toJsonHtmlString = (json: JSONValue, space?: number) => {
       spanNumber("--json-to-dom-number")
     )
     .replace(/\b(?:true|false)\b/g, span("--json-to-dom-boolean"))
-    .replace(/\bnull\b/g, span("--json-to-dom-null"));
+    .replace(/\bnull\b/g, span("--json-to-dom-null"))
+    .replace(/:\s*(?=(?:(?:[^"]*"){2})*[^"]*$)/g, span("--json-to-dom-semi"))
+    .replace(/(?<!\w|")\s*,\s*(?!\w|")/g, span("--json-to-dom-comma"));
   return pre(styling, withSpans);
 };
