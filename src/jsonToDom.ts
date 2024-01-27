@@ -42,6 +42,14 @@ const pre = (styling: Styling, text: string) => {
 const span = (variable: string) => (value: string) =>
   `<span style="positon: relative; color: var(${variable})">${value}</span>`;
 
+const spanField = (variable: string) => (_: string, p1: string) => {
+  return `<span style="positon: relative; color: var(${variable})">"${p1}"</span>:`;
+};
+
+const spanString = (variable: string) => (_: string, p1: string) => {
+  return `: <span style="positon: relative; color: var(${variable})">${p1}</span>`;
+};
+
 const spanNumber =
   (variable: string) => (value: string, p1: string | undefined) => {
     if (p1 !== undefined)
@@ -56,7 +64,8 @@ const toString = (json: JSONValue, space?: number) =>
 
 export const toJsonHtmlString = (json: JSONValue, space?: number) => {
   const withSpans = toString(json, space)
-    .replace(/"([^"]*)"/g, span("--Json-To-Dom-String"))
+    .replace(/"([^"]+)":/g, spanField("--Json-To-Dom-Field"))
+    .replace(/:\s*("[^"]*")/g, spanString("--Json-To-Dom-String"))
     .replace(/[\{\}]/g, span("--Json-To-Dom-Braces"))
     .replace(/[\[\]]/g, span("--Json-To-Dom-Brackets"))
     .replace(
@@ -64,7 +73,6 @@ export const toJsonHtmlString = (json: JSONValue, space?: number) => {
       spanNumber("--Json-To-Dom-Number")
     )
     .replace(/\b(?:true|false)\b/g, span("--Json-To-Dom-Boolean"))
-    .replace(/\bnull\b/g, span("--Json-To-Dom-Null"))
-    //.replace(/"([^"]*)"\s*:/g, span("--Json-To-Dom-Field"));
+    .replace(/\bnull\b/g, span("--Json-To-Dom-Null"));
   return pre(styling, withSpans);
 };
