@@ -1,0 +1,33 @@
+{
+  "name": "John Doe",
+  "age": 30,
+  "isStudent": false,
+  "grades": [95, 88, 92],
+  "address": {
+    "street": "123 Main St",
+    "city": "Exampleville",
+    "postalCode": "12345"
+  },
+  "contacts": {
+    "email": "john.doe@example.com",
+    "phone": {
+      "home": "555-1234",
+      "work": "555-5678"
+    }
+  },
+  "birthdate": "1992-05-15T08:00:00Z",
+  "hasPets": true,
+  "pets": [
+    {
+      "name": "Buddy",
+      "type": "Dog",
+      "age": 3
+    },
+    {
+      "name": "Whiskers",
+      "type": "Cat",
+      "age": 2
+    }
+  ],
+  "notes": null
+}
