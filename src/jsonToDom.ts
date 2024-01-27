@@ -3,13 +3,7 @@ interface JSONObject {
 }
 interface JSONArray extends Array<JSONValue> {}
 
-export type JSONValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JSONObject
-  | JSONArray;
+type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
 
 export type Styling = {
   field?: string;
@@ -23,19 +17,15 @@ export type Styling = {
   comma?: string;
 };
 
-const styling = {
-  field: "gray",
-  number: "lightBlue",
-  string: "green",
-  null: "teal",
-  boolean: "purple",
-  braces: "orange",
-  brackets: "red",
-  comma: "yellow",
-  semi: "hotPink",
+export type Config = {
+  space?: number;
+  styling?: Styling;
 };
 
-const pre = (styling: Styling, text: string) => {
+const pre = (text: string, styling?: Styling) => {
+  if (!styling)
+    return `<pre style="position: relative; margin:0">${text}</pre>`;
+
   const css = Object.entries(styling)
     .map(([field, color]) => `--json-to-dom-${field}:${color};`)
     .join("");
@@ -44,20 +34,20 @@ const pre = (styling: Styling, text: string) => {
 };
 
 const span = (variable: string) => (value: string) =>
-  `<span style="positon: relative; color: var(${variable})">${value}</span>`;
+  `<span style="color: var(${variable})">${value}</span>`;
 
 const spanField = (variable: string) => (_: string, p1: string) => {
-  return `<span style="positon: relative; color: var(${variable})">"${p1}"</span>:`;
+  return `<span style="color: var(${variable})">"${p1}"</span>:`;
 };
 
 const spanString = (variable: string) => (_: string, p1: string) => {
-  return `: <span style="positon: relative; color: var(${variable})">${p1}</span>`;
+  return `: <span style="color: var(${variable})">${p1}</span>`;
 };
 
 const spanNumber =
   (variable: string) => (value: string, p1: string | undefined) => {
     if (p1 !== undefined)
-      return `<span style="positon: relative; color: var(${variable})">${value}</span>`;
+      return `<span style="color: var(${variable})">${value}</span>`;
 
     // If it's within quotes, keep it unchanged
     return value;
@@ -66,9 +56,9 @@ const spanNumber =
 const toString = (json: JSONValue, space?: number) =>
   JSON.stringify(json, undefined, space ?? 2);
 
-export const toJsonHtmlString = (json: JSONValue, space?: number) => {
+export const toJsonHtmlString = (json: JSONValue, config?: Config) => {
   // Be careful with the ordering here, can mess upp the regex
-  const withSpans = toString(json, space)
+  const withSpans = toString(json, config?.space)
     .replace(/"([^"]+)":/g, spanField("--json-to-dom-field"))
     .replace(/:\s*("[^"]*")/g, spanString("--json-to-dom-string"))
     .replace(/[\{\}]/g, span("--json-to-dom-braces"))
@@ -81,5 +71,5 @@ export const toJsonHtmlString = (json: JSONValue, space?: number) => {
     .replace(/\bnull\b/g, span("--json-to-dom-null"))
     .replace(/:\s*(?=(?:(?:[^"]*"){2})*[^"]*$)/g, span("--json-to-dom-semi"))
     .replace(/(?<!\w|")\s*,\s*(?!\w|")/g, span("--json-to-dom-comma"));
-  return pre(styling, withSpans);
+  return pre(withSpans, config?.styling);
 };
