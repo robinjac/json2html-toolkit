@@ -1,4 +1,6 @@
 #app {
   display: flex;
-  justify-content: start
+  justify-content: start;
+  background-color: black;
+  color: white;
 }
