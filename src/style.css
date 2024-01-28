@@ -1,4 +1,9 @@
-#app {
+body {
+  display: grid;
+  gap: 1rem 0; 
+}
+
+.container {
   display: flex;
   justify-content: start;
   background-color: black;

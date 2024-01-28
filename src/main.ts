@@ -1,6 +1,7 @@
 import "./style.css";
-import { mount } from "./jsonToDom.ts";
-import testJSON from "../test/test4.json";
+import { mount, type JSONValue } from "./jsonToDom.ts";
+
+const files = import.meta.glob<{ default: JSONValue }>("../test/*.json");
 
 const styling = {
   field: "gray",
@@ -14,4 +15,8 @@ const styling = {
   semi: "hotPink",
 };
 
-mount("#app", testJSON, { styling })
+Object.keys(files).forEach(async (path, i) => {
+  const module = await files[path]();
+
+  mount(`#c${i + 1}`, module.default, { styling });
+});
