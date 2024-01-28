@@ -2,7 +2,7 @@ import "./style.css";
 import { mount, type JSONValue } from "./jsonToDom.ts";
 
 const files = import.meta.glob<{ default: JSONValue }>("../test/*.json");
-
+const div = document.getElementById("app")!;
 const styling = {
   field: "gray",
   number: "lightBlue",
@@ -17,6 +17,8 @@ const styling = {
 
 Object.keys(files).forEach(async (path, i) => {
   const module = await files[path]();
+
+  div.insertAdjacentHTML("beforeend", `<div id="c${i + 1}" class="container"></div>`);
 
   mount(`#c${i + 1}`, module.default, { styling });
 });

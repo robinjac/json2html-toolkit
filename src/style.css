@@ -1,4 +1,4 @@
-body {
+#app {
   display: grid;
   gap: 1rem 0; 
 }
