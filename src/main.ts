@@ -22,5 +22,6 @@ Object.keys(files).forEach(async (path, i) => {
 
   div.insertAdjacentHTML("beforeend", `<div id="c${i + 1}" class="container"></div>`);
 
-  mount(`#c${i + 1}`, module.default, { styling });
+  // Test to change prefix, default is json-to-dom
+  mount(`#c${i + 1}`, module.default, { styling, prefixCssVariables: "hello-world" });
 });
