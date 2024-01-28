@@ -83,7 +83,7 @@ export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
     .replace(/[\[\]]/g, span("--json-to-dom-brackets"))
     .replace(/[\{\}]/g, span("--json-to-dom-braces"))
     .replace(/\b(?:true|false)\b/g, span("--json-to-dom-boolean"))
-    .replace(/\b\d+(\.\d+)?\b/g, span("--json-to-dom-number"))
+    .replace(/-?\b\d+(\.\d+)?\b/g, span("--json-to-dom-number"))
     .replace(/\bnull\b/g, span("--json-to-dom-null"))
     .replace(/(_field\d+_)/g, span("--json-to-dom-field", fields))
     .replace(/(_string\d+_)/g, span("--json-to-dom-string", strings));
