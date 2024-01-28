@@ -3,7 +3,7 @@ interface JSONObject {
 }
 interface JSONArray extends Array<JSONValue> {}
 
-type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
+export type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
 
 export type Styling = {
   field?: string;
