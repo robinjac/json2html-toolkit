@@ -3,16 +3,18 @@ import { mount, type JSONValue } from "./jsonToDom.ts";
 
 const files = import.meta.glob<{ default: JSONValue }>("../test/*.json");
 const div = document.getElementById("app")!;
+
+// Styling like chat gpt json print 🤘
 const styling = {
-  properties: "gray",
-  number: "lightBlue",
-  string: "green",
-  null: "teal",
-  boolean: "purple",
-  braces: "orange",
-  brackets: "red",
-  comma: "yellow",
-  semi: "hotPink",
+  properties: "#df3079",
+  number: "#df3079",
+  string: "#00a67d",
+  null: "#2e95d3",
+  boolean: "#2e95d3",
+  braces: "#d9d9e3",
+  brackets: "#d9d9e3",
+  comma: "#d9d9e3",
+  semi: "#d9d9e3",
 };
 
 Object.keys(files).forEach(async (path, i) => {
