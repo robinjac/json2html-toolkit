@@ -53,14 +53,19 @@ const toString = (json: JSONValue, space?: number) =>
 const properties: { [key: string]: string } = {};
 const strings: { [key: string]: string } = {};
 
-const markProperties = (value: string, pos: number) => {
+const preProcessProperties = (value: string, pos: number) => {
   const key = `_property${pos}_`;
 
   properties[key] = value;
   return key;
 };
 
-const markStringArrays = (value: string, _: string, __: number, pos: number) =>
+const preProcessStringInArrays = (
+  value: string,
+  _: string,
+  __: number,
+  pos: number
+) =>
   value.replace(
     /"((?:[^\\"]|\\.)*)"/g,
     (match: string, ___: string, pos2: number) => {
@@ -72,7 +77,7 @@ const markStringArrays = (value: string, _: string, __: number, pos: number) =>
     }
   );
 
-const markStringAndProperties = (
+const preProcessStringAndProperties = (
   _: string,
   property: string,
   stringValue: string,
@@ -91,9 +96,15 @@ export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
   // Be careful with the ordering here, can mess upp the regex replacement
   const withSpans = toString(json, config.space)
     // Strings need delicate handling, so we need to pre-process them before replacing everything else
-    .replace(/"([^"]+)":\s*("[^"\\]*(?:\\.[^"\\]*)*")/g, markStringAndProperties)
-    .replace(/\[\s*("[^"]*")\s*(?:,\s*("[^"]*")\s*)*\]/g, markStringArrays)
-    .replace(/"(?:\\.|[^"\\])*"/g, markProperties)
+    .replace(
+      /"([^"]+)":\s*("[^"\\]*(?:\\.[^"\\]*)*")/g,
+      preProcessStringAndProperties
+    )
+    .replace(
+      /\[\s*("[^"]*")\s*(?:,\s*("[^"]*")\s*)*\]/g,
+      preProcessStringInArrays
+    )
+    .replace(/"(?:\\.|[^"\\])*"/g, preProcessProperties)
     .replace(/:/g, span("--json-to-dom-semi"))
     .replace(/,/g, span("--json-to-dom-comma"))
     .replace(/[\[\]]/g, span("--json-to-dom-brackets"))
