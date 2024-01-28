@@ -39,8 +39,11 @@ const pre = (text: string, styling?: Styling) => {
   return `<pre style="position: relative; white-space: pre-wrap; margin:0; ${css}">${text}</pre>`;
 };
 
-const span = (variable: string) => (value: string) =>
-  `<span style="color: var(${variable})">${value}</span>`;
+const span =
+  (variable: string, record?: Record<string, string>) => (value: string) =>
+    `<span style="color: var(${variable})">${
+      record ? record[value] : value
+    }</span>`;
 
 const toString = (json: JSONValue, space?: number) =>
   JSON.stringify(json, undefined, space ?? 2);
@@ -54,12 +57,6 @@ const markFields = (value: string, pos: number) => {
   fields[key] = value;
   return key;
 };
-
-const spanField = (variable: string) => (value: string) =>
-  `<span style="color: var(${variable})">${fields[value]}</span>`;
-
-const spanString = (variable: string) => (value: string) =>
-  `<span style="color: var(${variable})">${strings[value]}</span>`;
 
 const markStringFields = (
   _: string,
@@ -88,8 +85,8 @@ export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
     .replace(/\b(?:true|false)\b/g, span("--json-to-dom-boolean"))
     .replace(/\b\d+(\.\d+)?\b/g, span("--json-to-dom-number"))
     .replace(/\bnull\b/g, span("--json-to-dom-null"))
-    .replace(/(_field\d+_)/g, spanField("--json-to-dom-field"))
-    .replace(/(_string\d+_)/g, spanString("--json-to-dom-string"));
+    .replace(/(_field\d+_)/g, span("--json-to-dom-field", fields))
+    .replace(/(_string\d+_)/g, span("--json-to-dom-string", strings));
 
   return pre(withSpans, config.styling);
 };
