@@ -3,7 +3,13 @@ interface JSONObject {
 }
 interface JSONArray extends Array<JSONValue> {}
 
-export type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
+export type JSONValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JSONObject
+  | JSONArray;
 
 export type Styling = {
   field?: string;
@@ -36,41 +42,55 @@ const pre = (text: string, styling?: Styling) => {
 const span = (variable: string) => (value: string) =>
   `<span style="color: var(${variable})">${value}</span>`;
 
-const spanField = (variable: string) => (_: string, p1: string) => {
-  return `<span style="color: var(${variable})">"${p1}"</span>:`;
-};
-
-const spanString = (variable: string) => (_: string, p1: string) => {
-  return `: <span style="color: var(${variable})">${p1}</span>`;
-};
-
-const spanNumber =
-  (variable: string) => (value: string, p1: string | undefined) => {
-    if (p1 !== undefined)
-      return `<span style="color: var(${variable})">${value}</span>`;
-
-    // If it's within quotes, keep it unchanged
-    return value;
-  };
-
 const toString = (json: JSONValue, space?: number) =>
   JSON.stringify(json, undefined, space ?? 2);
+
+const fields: { [key: string]: string } = {};
+const strings: { [key: string]: string } = {};
+
+const markFields = (value: string, pos: number) => {
+  const key = `_field${pos}_`;
+
+  fields[key] = value;
+  return key;
+};
+
+const spanField = (variable: string) => (value: string) =>
+  `<span style="color: var(${variable})">${fields[value]}</span>`;
+
+const spanString = (variable: string) => (value: string) =>
+  `<span style="color: var(${variable})">${strings[value]}</span>`;
+
+const markStringFields = (
+  _: string,
+  captureGroup1: string,
+  captureGroup2: string,
+  pos: number
+) => {
+  const fieldKey = `_field${pos}_`;
+  const stringKey = `_string${pos}_`;
+
+  fields[fieldKey] = captureGroup1;
+  strings[stringKey] = captureGroup2;
+
+  return `${fieldKey}: ${stringKey}`;
+};
 
 export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
   // Be careful with the ordering here, can mess upp the regex replacement
   const withSpans = toString(json, config.space)
-    .replace(/"([^"]+)":/g, spanField("--json-to-dom-field"))
-    .replace(/:\s*("[^"]*")/g, spanString("--json-to-dom-string"))
-    .replace(/[\{\}]/g, span("--json-to-dom-braces"))
+    .replace(/"([^"]+)":\s*("[^"\\]*(?:\\.[^"\\]*)*")/g, markStringFields)
+    .replace(/"(?:\\.|[^"\\])*"/g, markFields)
+    .replace(/:/g, span("--json-to-dom-semi"))
+    .replace(/,/g, span("--json-to-dom-comma"))
     .replace(/[\[\]]/g, span("--json-to-dom-brackets"))
-    .replace(
-      /(-?\b0*[1-9]\d*(\.\d+)?\b)|("[^"]*")/g,
-      spanNumber("--json-to-dom-number")
-    )
+    .replace(/[\{\}]/g, span("--json-to-dom-braces"))
     .replace(/\b(?:true|false)\b/g, span("--json-to-dom-boolean"))
+    .replace(/\b\d+(\.\d+)?\b/g, span("--json-to-dom-number"))
     .replace(/\bnull\b/g, span("--json-to-dom-null"))
-    .replace(/:\s*(?=(?:(?:[^"]*"){2})*[^"]*$)/g, span("--json-to-dom-semi"))
-    .replace(/(?<!\w|")\s*,\s*(?!\w|")/g, span("--json-to-dom-comma"));
+    .replace(/(_field\d+_)/g, spanField("--json-to-dom-field"))
+    .replace(/(_string\d+_)/g, spanString("--json-to-dom-string"));
+
   return pre(withSpans, config.styling);
 };
 
