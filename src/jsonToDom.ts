@@ -58,6 +58,17 @@ const markFields = (value: string, pos: number) => {
   return key;
 };
 
+const markStringArrays = (value: string, _: string, __: number, pos: number) =>
+  value.replace(
+    /"((?:[^\\"]|\\.)*)"/g,
+    (match: string, ___: string, pos2: number) => {
+      const key = `_string${pos}${pos2}_`;
+
+      strings[key] = match;
+      return key;
+    }
+  );
+
 const markStringFields = (
   _: string,
   captureGroup1: string,
@@ -77,6 +88,7 @@ export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
   // Be careful with the ordering here, can mess upp the regex replacement
   const withSpans = toString(json, config.space)
     .replace(/"([^"]+)":\s*("[^"\\]*(?:\\.[^"\\]*)*")/g, markStringFields)
+    .replace(/\[\s*("[^"]*")\s*(?:,\s*("[^"]*")\s*)*\]/g, markStringArrays)
     .replace(/"(?:\\.|[^"\\])*"/g, markFields)
     .replace(/:/g, span("--json-to-dom-semi"))
     .replace(/,/g, span("--json-to-dom-comma"))
