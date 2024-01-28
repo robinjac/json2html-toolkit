@@ -4,7 +4,7 @@ import { mount, type JSONValue } from "./jsonToDom.ts";
 const files = import.meta.glob<{ default: JSONValue }>("../test/*.json");
 const div = document.getElementById("app")!;
 const styling = {
-  field: "gray",
+  properties: "gray",
   number: "lightBlue",
   string: "green",
   null: "teal",

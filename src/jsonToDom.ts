@@ -12,7 +12,7 @@ export type JSONValue =
   | JSONArray;
 
 export type Styling = {
-  field?: string;
+  properties?: string;
   number?: string;
   string?: string;
   null?: string;
@@ -29,14 +29,16 @@ export type Config = {
 };
 
 const pre = (text: string, styling?: Styling) => {
-  if (!styling)
-    return `<pre style="position: relative; white-space: pre-wrap; margin:0">${text}</pre>`;
+  const element = (text: string, css = "") =>
+    `<pre style="position: relative; white-space: pre-wrap; margin:0; ${css}">${text}</pre>`;
+
+  if (!styling) return element(text);
 
   const css = Object.entries(styling)
-    .map(([field, color]) => `--json-to-dom-${field}:${color};`)
+    .map(([styleKey, color]) => `--json-to-dom-${styleKey}:${color};`)
     .join("");
 
-  return `<pre style="position: relative; white-space: pre-wrap; margin:0; ${css}">${text}</pre>`;
+  return element(text, css);
 };
 
 const span =
@@ -48,13 +50,13 @@ const span =
 const toString = (json: JSONValue, space?: number) =>
   JSON.stringify(json, undefined, space ?? 2);
 
-const fields: { [key: string]: string } = {};
+const properties: { [key: string]: string } = {};
 const strings: { [key: string]: string } = {};
 
-const markFields = (value: string, pos: number) => {
-  const key = `_field${pos}_`;
+const markProperties = (value: string, pos: number) => {
+  const key = `_property${pos}_`;
 
-  fields[key] = value;
+  properties[key] = value;
   return key;
 };
 
@@ -62,6 +64,7 @@ const markStringArrays = (value: string, _: string, __: number, pos: number) =>
   value.replace(
     /"((?:[^\\"]|\\.)*)"/g,
     (match: string, ___: string, pos2: number) => {
+      // Not sure if this could collide with any other id (no uniqueness quarantee)
       const key = `_string${pos}${pos2}_`;
 
       strings[key] = match;
@@ -69,27 +72,28 @@ const markStringArrays = (value: string, _: string, __: number, pos: number) =>
     }
   );
 
-const markStringFields = (
+const markStringAndProperties = (
   _: string,
-  field: string,
+  property: string,
   stringValue: string,
   pos: number
 ) => {
-  const fieldKey = `_field${pos}_`;
+  const propertyKey = `_property${pos}_`;
   const stringKey = `_string${pos}_`;
 
-  fields[fieldKey] = `"${field}"`;
+  properties[propertyKey] = `"${property}"`;
   strings[stringKey] = stringValue;
 
-  return `${fieldKey}: ${stringKey}`;
+  return `${propertyKey}: ${stringKey}`;
 };
 
 export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
   // Be careful with the ordering here, can mess upp the regex replacement
   const withSpans = toString(json, config.space)
-    .replace(/"([^"]+)":\s*("[^"\\]*(?:\\.[^"\\]*)*")/g, markStringFields)
+    // Strings need delicate handling, so we need to pre-process them before replacing everything else
+    .replace(/"([^"]+)":\s*("[^"\\]*(?:\\.[^"\\]*)*")/g, markStringAndProperties)
     .replace(/\[\s*("[^"]*")\s*(?:,\s*("[^"]*")\s*)*\]/g, markStringArrays)
-    .replace(/"(?:\\.|[^"\\])*"/g, markFields)
+    .replace(/"(?:\\.|[^"\\])*"/g, markProperties)
     .replace(/:/g, span("--json-to-dom-semi"))
     .replace(/,/g, span("--json-to-dom-comma"))
     .replace(/[\[\]]/g, span("--json-to-dom-brackets"))
@@ -97,7 +101,7 @@ export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
     .replace(/\b(?:true|false)\b/g, span("--json-to-dom-boolean"))
     .replace(/-?\b\d+(\.\d+)?\b/g, span("--json-to-dom-number"))
     .replace(/\bnull\b/g, span("--json-to-dom-null"))
-    .replace(/(_field\d+_)/g, span("--json-to-dom-field", fields))
+    .replace(/(_property\d+_)/g, span("--json-to-dom-properties", properties))
     .replace(/(_string\d+_)/g, span("--json-to-dom-string", strings));
 
   return pre(withSpans, config.styling);
