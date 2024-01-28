@@ -1,0 +1,39 @@
+{
+  "stringArray": ["apple", "banana", "cherry"],
+  "booleanArray": [true, false, true],
+  "nullArray": [null, null, null],
+  "numberArray": [1, 2.5, -3, 0],
+  "objectArray": [
+    {
+      "name": "John Doe",
+      "age": 30,
+      "city": "Exampleville"
+    },
+    {
+      "name": "Alice Wonderland",
+      "age": 25,
+      "city": "Wonderland"
+    },
+    {
+      "escapedString": "{\"key\": \"value\"}",
+      "nestedObject": {
+        "nestedKey": "nestedValue"
+      }
+    }
+  ],
+  "mixedArray": [null, true, 42, "mixedValue", false],
+  "email": "john.doe@example.com",
+  "phoneNumber": "555-1234",
+  "dateOfBirth": "1990-12-15",
+  "isStudent": true,
+  "address": {
+    "street": "123 Main St",
+    "city": "Exampleville",
+    "postalCode": "12345"
+  },
+  "hasPets": false,
+  "petNames": ["Buddy", "Whiskers"],
+  "notes": "Some additional notes.",
+  "binaryData": "01010101",
+  "codeSnippet": "function helloWorld() {\n  console.log('Hello, World!');\n}"
+}
