@@ -26,16 +26,17 @@ export type Styling = {
 export type Config = {
   space?: number;
   styling?: Styling;
+  prefixCssVariables?: string;
 };
 
-const pre = (text: string, styling?: Styling) => {
+const pre = (text: string, prefix: string, styling?: Styling) => {
   const element = (text: string, css = "") =>
     `<pre style="position: relative; white-space: pre-wrap; margin:0; ${css}">${text}</pre>`;
 
   if (!styling) return element(text);
 
   const css = Object.entries(styling)
-    .map(([styleKey, color]) => `--json-to-dom-${styleKey}:${color};`)
+    .map(([styleKey, color]) => `--${prefix}-${styleKey}:${color};`)
     .join("");
 
   return element(text, css);
@@ -93,6 +94,7 @@ const preProcessStringAndProperties = (
 };
 
 export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
+  const prefix = config.prefixCssVariables ?? "json-to-dom";
   // Be careful with the ordering here, can mess upp the regex replacement
   const withSpans = toString(json, config.space)
     // Strings need delicate handling, so we need to pre-process them before replacing everything else
@@ -105,17 +107,17 @@ export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
       preProcessStringInArrays
     )
     .replace(/"(?:\\.|[^"\\])*"/g, preProcessProperties)
-    .replace(/:/g, span("--json-to-dom-semi"))
-    .replace(/,/g, span("--json-to-dom-comma"))
-    .replace(/[\[\]]/g, span("--json-to-dom-brackets"))
-    .replace(/[\{\}]/g, span("--json-to-dom-braces"))
-    .replace(/\b(?:true|false)\b/g, span("--json-to-dom-boolean"))
-    .replace(/-?\b\d+(\.\d+)?\b/g, span("--json-to-dom-number"))
-    .replace(/\bnull\b/g, span("--json-to-dom-null"))
-    .replace(/(_property\d+_)/g, span("--json-to-dom-properties", properties))
-    .replace(/(_string\d+_)/g, span("--json-to-dom-string", strings));
+    .replace(/:/g, span(`--${prefix}-semi`))
+    .replace(/,/g, span(`--${prefix}-comma`))
+    .replace(/[\[\]]/g, span(`--${prefix}-brackets`))
+    .replace(/[\{\}]/g, span(`--${prefix}-braces`))
+    .replace(/\b(?:true|false)\b/g, span(`--${prefix}-boolean`))
+    .replace(/-?\b\d+(\.\d+)?\b/g, span(`--${prefix}-number`))
+    .replace(/\bnull\b/g, span(`--${prefix}-null`))
+    .replace(/(_property\d+_)/g, span(`--${prefix}-properties`, properties))
+    .replace(/(_string\d+_)/g, span(`--${prefix}-string`, strings));
 
-  return pre(withSpans, config.styling);
+  return pre(withSpans, prefix, config.styling);
 };
 
 export const mount = (
