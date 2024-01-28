@@ -71,15 +71,15 @@ const markStringArrays = (value: string, _: string, __: number, pos: number) =>
 
 const markStringFields = (
   _: string,
-  captureGroup1: string,
-  captureGroup2: string,
+  field: string,
+  stringValue: string,
   pos: number
 ) => {
   const fieldKey = `_field${pos}_`;
   const stringKey = `_string${pos}_`;
 
-  fields[fieldKey] = captureGroup1;
-  strings[stringKey] = captureGroup2;
+  fields[fieldKey] = `"${field}"`;
+  strings[stringKey] = stringValue;
 
   return `${fieldKey}: ${stringKey}`;
 };
