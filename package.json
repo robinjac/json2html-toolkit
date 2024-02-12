@@ -1,13 +1,11 @@
 {
-  "name": "vite-project",
+  "name": "json-to-dom",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "start": "npm run dev"
+    "start": "vite",
+    "build": "tsc && vite build"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
