@@ -1,7 +1,7 @@
 import "./style.css";
-import { mount, type JSONValue } from "./jsonToDom.ts";
+import { mount, type JSONValue } from "./src/jsonToDom.ts";
 
-const files = import.meta.glob<{ default: JSONValue }>("../test/*.json");
+const files = import.meta.glob<{ default: JSONValue }>("./test/*.json");
 const div = document.getElementById("app")!;
 
 // Styling like chat gpt json print 🤘
