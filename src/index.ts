@@ -1,33 +1,4 @@
-interface JSONObject {
-  [key: string]: JSONValue;
-}
-interface JSONArray extends Array<JSONValue> {}
-
-export type JSONValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JSONObject
-  | JSONArray;
-
-export type Styling = {
-  properties?: string;
-  number?: string;
-  string?: string;
-  null?: string;
-  boolean?: string;
-  braces?: string;
-  brackets?: string;
-  semi?: string;
-  comma?: string;
-};
-
-export type Config = {
-  space?: number;
-  styling?: Styling;
-  prefixCssVariables?: string;
-};
+import type { Config, Styling, JSONValue } from "./index.d";
 
 const pre = (text: string, prefix: string, styling?: Styling) => {
   const element = (text: string, css = "") =>

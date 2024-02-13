@@ -17,7 +17,11 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "json-to-dom": ["dist"]
+    }
   },
-  "include": ["main.ts", "vite-env.d.ts"]
+  "include": ["main.ts", "vite-env.d.ts" ]
 }

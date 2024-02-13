@@ -1,11 +1,12 @@
 {
   "name": "json-to-dom",
-  "private": true,
   "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build"
+    "build": "vite build"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
