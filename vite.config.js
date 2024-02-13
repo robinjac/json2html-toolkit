@@ -19,10 +19,13 @@ export default defineConfig({
     {
       name: "copy-declaration-file",
       writeBundle() {
-        const source = resolve(__dirname, "src", "index.d.ts");
-        const destination = resolve(__dirname, "dist", "index.d.ts");
+        const source = (file, at) => resolve(__dirname, at || ".", file);
+        const destination = (file) => resolve(__dirname, "dist", file);
+        const copy = (file) => copyFileSync(source(file), destination(file));
 
-        copyFileSync(source, destination);
+        copyFileSync(source("index.d.ts", "src"), destination("index.d.ts"));
+        copy("README.md");
+        copy("LICENSE.md");
       },
     },
   ],
