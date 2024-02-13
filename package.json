@@ -1,16 +1,15 @@
 {
   "name": "json-to-dom",
   "version": "0.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "private": true,
   "type": "module",
-  "files": [
-    "dist/",
-    "README.md"
+  "workspaces": [
+    "dist"
   ],
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "package": "npm pack --workspace dist"
   },
   "devDependencies": {
     "typescript": "^5.2.2",

@@ -1,6 +1,28 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
-import { copyFileSync } from "fs";
+import { copyFileSync, writeFileSync } from "fs";
+
+const packageJson = {
+  name: "json-to-dom",
+  version: "0.0.0", // Todo handle version
+  description: "Tiny library/tool to print out json object into the dom 🤘",
+  main: "index.js", // Entry point of your package
+  types: "index.d.ts",
+  keywords: [
+    "json",
+    "dom",
+    "print",
+    "object",
+    "parser",
+    "viewer",
+    "formatter",
+    "display",
+    "visualization",
+    "utility",
+  ],
+  author: "Robin Jacobsson",
+  license: "MIT",
+};
 
 export default defineConfig({
   resolve: {
@@ -17,7 +39,7 @@ export default defineConfig({
   },
   plugins: [
     {
-      name: "copy-declaration-file",
+      name: "copy-files-and-create-package-json",
       writeBundle() {
         const source = (file, at) => resolve(__dirname, at || ".", file);
         const destination = (file) => resolve(__dirname, "dist", file);
@@ -26,6 +48,8 @@ export default defineConfig({
         copyFileSync(source("index.d.ts", "src"), destination("index.d.ts"));
         copy("README.md");
         copy("LICENSE.md");
+
+        writeFileSync(destination("package.json"), JSON.stringify(packageJson, null, 2));
       },
     },
   ],
