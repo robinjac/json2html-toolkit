@@ -29,6 +29,10 @@ export type Config = {
   prefixCssVariables?: string;
 };
 
-export function toHtmlString(json: JSONValue, config: Config): string;
+export function toHtmlString(json: JSONValue, config?: Config): string;
 
-export function insertAt(selector: string, json: JSONValue, config: Config): void;
+export function insertAt(
+  selector: string,
+  json: JSONValue,
+  config?: Config
+): void;
