@@ -65,7 +65,7 @@ const preProcessStringAndProperties = (
 };
 
 export const toHtmlString = (json: JSONValue, config: Config = {}) => {
-  const prefix = config.prefixCssVariables ?? "json-to-dom";
+  const prefix = config.prefixCssVariables ?? "json2html";
   // Be careful with the ordering here, can mess upp the regex replacement
   const withSpans = toString(json, config.space)
     // Strings need delicate handling, so we need to pre-process them before replacing everything else
