@@ -38,7 +38,7 @@ const packageJson = {
 export default defineConfig({
   resolve: {
     alias: {
-      "json-2-dom": "./src",
+      "json2html-toolkit": "./src",
     },
   },
   build: {

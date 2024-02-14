@@ -1,5 +1,5 @@
 import "./style.css";
-import { mount, type JSONValue } from "json-2-dom";
+import { mount, type JSONValue } from "json2html-toolkit";
 
 const files = import.meta.glob<{ default: JSONValue }>("./test/*.json");
 const div = document.getElementById("app")!;
