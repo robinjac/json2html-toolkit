@@ -1,5 +1,5 @@
 import "./style.css";
-import { mount, type JSONValue } from "json2html-toolkit";
+import { insertAt, type JSONValue } from "json2html-toolkit";
 
 const files = import.meta.glob<{ default: JSONValue }>("./test/*.json");
 const div = document.getElementById("app")!;
@@ -23,5 +23,5 @@ Object.keys(files).forEach(async (path, i) => {
   div.insertAdjacentHTML("beforeend", `<div id="c${i + 1}" class="container"></div>`);
 
   // Test to change prefix, default is json-to-dom
-  mount(`#c${i + 1}`, module.default, { styling, prefixCssVariables: "hello-world" });
+  insertAt(`#c${i + 1}`, module.default, { styling, prefixCssVariables: "hello-world" });
 });

@@ -44,7 +44,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, "src"),
-      name: "json-to-dom",
+      name: "json2html-toolkit",
       fileName: "index",
     },
   },

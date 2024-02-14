@@ -64,7 +64,7 @@ const preProcessStringAndProperties = (
   return `${propertyKey}: ${stringKey}`;
 };
 
-export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
+export const toHtmlString = (json: JSONValue, config: Config = {}) => {
   const prefix = config.prefixCssVariables ?? "json-to-dom";
   // Be careful with the ordering here, can mess upp the regex replacement
   const withSpans = toString(json, config.space)
@@ -91,11 +91,13 @@ export const toJsonHtmlString = (json: JSONValue, config: Config = {}) => {
   return pre(withSpans, prefix, config.styling);
 };
 
-export const mount = (
+export const insertAt = (
   selector: string,
   json: JSONValue,
   config: Config = {}
 ) => {
   document.querySelector<HTMLButtonElement>(selector)!.innerHTML =
-    toJsonHtmlString(json, config);
+    toHtmlString(json, config);
 };
+
+export type { Config, Styling, JSONValue } from "./index.d";

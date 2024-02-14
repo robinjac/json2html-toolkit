@@ -20,7 +20,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {
-      "json2html-toolkit": ["dist"]
+      "json2html-toolkit": ["src"]
     }
   },
   "include": ["main.ts", "vite-env.d.ts" ]
