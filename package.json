@@ -9,7 +9,8 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "package": "npm pack --workspace dist"
+    "package": "npm pack --workspace dist",
+    "publish-package": "npm publish --workspace dist"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
