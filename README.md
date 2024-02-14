@@ -22,6 +22,8 @@ To install `json2html-toolkit`, you can use npm:
 npm install json2html-toolkit
 ```
 
+Or copy the source. It's tiny, just one file! 🤫 (But please give it some ⭐️ if you do 🥹)
+
 ## Usage
 
 To print out as an html string, use `toHTMLString`. Here's an example:
@@ -100,6 +102,7 @@ export type JSONValue =
   | JSONObject
   | JSONArray;
 
+// Do we need any more here? 🤔
 export type Styling = {
   properties?: string;
   number?: string;
