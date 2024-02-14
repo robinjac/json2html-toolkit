@@ -9,6 +9,10 @@ const packageJson = {
     "Tiny library/tool to print out or insert a json object into the dom 🤘",
   main: "index.js", // Entry point of your package
   types: "index.d.ts",
+  repository: {
+    type: "git",
+    url: "https://github.com/robinjac/json2html-toolkit"
+  },
   keywords: [
     "json",
     "dom",

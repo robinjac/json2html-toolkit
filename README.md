@@ -1,9 +1,9 @@
 # JSON to HTML toolkit 🥳
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![npm version](https://badge.fury.io/js/your-package-name.svg)](https://badge.fury.io/js/your-package-name)
-[![GitHub forks](https://img.shields.io/github/forks/robinjac/JSONToDOM)](https://github.com/yourusername/yourrepository/network)
-[![GitHub stars](https://img.shields.io/github/stars/robinjac/JSONToDOM)](https://github.com/yourusername/yourrepository/stargazers)
+[![npm version](https://badge.fury.io/js/json2html-toolkit.svg)](https://badge.fury.io/js/json2html-toolkit)
+[![GitHub forks](https://img.shields.io/github/forks/robinjac/json2html-toolkit)](https://github.com/robinjac/json2html-toolkit/network)
+[![GitHub stars](https://img.shields.io/github/stars/robinjac/json2html-toolkit)](https://github.com/robinjac/json2html-toolkit/stargazers)
 
 ## Description
 
@@ -140,4 +140,4 @@ This project was inspired by the great work done at [highlightjs](https://github
 
 ## Support
 
-If you have any questions or issues, please open an [issue](https://github.com/robinjac/JSONToDOM/issues) on GitHub.
+If you have any questions or issues, please open an [issue](https://github.com/robinjac/json2html-toolkit/issues) on GitHub.
