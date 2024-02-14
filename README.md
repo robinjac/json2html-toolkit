@@ -1,4 +1,4 @@
-# JSON to DOM 🥳
+# JSON to HTML toolkit 🥳
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![npm version](https://badge.fury.io/js/your-package-name.svg)](https://badge.fury.io/js/your-package-name)
@@ -8,7 +8,7 @@
 
 ## Description
 
- Tiny library/tool to print out json object into the dom 🤘
+Tiny library/tool to print out or insert a json object into the dom 🤘
 
 ## Features
 
