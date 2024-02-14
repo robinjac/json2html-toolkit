@@ -4,7 +4,7 @@ import { copyFileSync, writeFileSync } from "fs";
 
 const packageJson = {
   name: "json2html-toolkit",
-  version: "0.0.0", // Todo handle version
+  version: "0.0.1", // Todo handle version
   description:
     "Tiny library/tool to print out or insert a json object into the dom 🤘",
   main: "index.js", // Entry point of your package
