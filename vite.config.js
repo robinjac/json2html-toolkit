@@ -3,9 +3,10 @@ import { defineConfig } from "vite";
 import { copyFileSync, writeFileSync } from "fs";
 
 const packageJson = {
-  name: "@robinjac/json-to-dom",
+  name: "json2html-toolkit",
   version: "0.0.0", // Todo handle version
-  description: "Tiny library/tool to print out json object into the dom 🤘",
+  description:
+    "Tiny library/tool to print out or insert a json object into the dom 🤘",
   main: "index.js", // Entry point of your package
   types: "index.d.ts",
   keywords: [
@@ -18,8 +19,17 @@ const packageJson = {
     "formatter",
     "display",
     "visualization",
+    "toolkit",
     "utility",
     "json to dom",
+    "json as html string",
+    "json to html",
+    "html",
+    "javascript",
+    "library",
+    "markup",
+    "converter",
+    "stringify",
   ],
   author: "robinjac",
   license: "MIT",
@@ -50,7 +60,10 @@ export default defineConfig({
         copy("README.md");
         copy("LICENSE.md");
 
-        writeFileSync(destination("package.json"), JSON.stringify(packageJson, null, 2));
+        writeFileSync(
+          destination("package.json"),
+          JSON.stringify(packageJson, null, 2)
+        );
       },
     },
   ],
