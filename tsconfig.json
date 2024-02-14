@@ -20,7 +20,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {
-      "json-to-dom": ["dist"]
+      "json-2-dom": ["dist"]
     }
   },
   "include": ["main.ts", "vite-env.d.ts" ]
