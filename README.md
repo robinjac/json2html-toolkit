@@ -64,7 +64,7 @@ const result = toHTMLString(jsonData, { styling });
 Change spacing:
 
 ```ts
-const result = toHTMLString(jsonData, { styling, spacing: 4 }); // Default is 2
+const result = toHTMLString(jsonData, { styling, space: 4 }); // Default is 2
 ```
 
 You can also use CSS variables. By default, the variables are named `--json2dom-<styling-property>`. For example, to change the color of number types, you would target `--json2dom-number` variable. If you want a different prefix, you can change it using `prefixCssVariables`:
@@ -72,7 +72,6 @@ You can also use CSS variables. By default, the variables are named `--json2dom-
 ```ts
 const result = toHTMLString(jsonData, {
   styling,
-  spacing: 4,
   prefixCssVariables: "my-custom-prefix",
 });
 ```
