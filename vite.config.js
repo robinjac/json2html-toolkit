@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 import { copyFileSync, writeFileSync } from "fs";
 
 const packageJson = {
-  name: "json-2-dom",
+  name: "@robinjac/json-to-dom",
   version: "0.0.0", // Todo handle version
   description: "Tiny library/tool to print out json object into the dom 🤘",
   main: "index.js", // Entry point of your package
@@ -21,7 +21,7 @@ const packageJson = {
     "utility",
     "json to dom",
   ],
-  author: "Robin Jacobsson",
+  author: "robinjac",
   license: "MIT",
 };
 
