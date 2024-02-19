@@ -9,13 +9,12 @@
     features: {
       tiny: "9.11kb unpacked size",
       dependencies: "none",
-      stylable:"Just the way you like it! 😎",
+      stylable: "Just the way you like it! 😎",
     },
-    isAwesome: true,
   };
 </script>
 
-<Typewriter mode="cascade">
+<Typewriter mode="cascade" interval={60}>
   <div>
     {@html toHtmlString(json, { space: 4 })}
   </div>
@@ -24,11 +23,11 @@
 <style>
   div {
     display: flex;
-    padding: 0 10%;
+    padding: 10%;
     justify-content: start;
-    align-items: center;
-    height: 45vh;
-    background-color: black;
+    align-items: start;
+    height: 15vh;
+    background: linear-gradient(135deg, #FFFF00, #000080);
   }
 
   /* Styling like chat gpt json print 🤘 */
