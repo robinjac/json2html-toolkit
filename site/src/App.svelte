@@ -1,36 +1,33 @@
 <script lang="ts">
   import { toHtmlString } from "json2html-toolkit";
+  import Typewriter from "svelte-typewriter";
 
   const json = {
-    "Json to": "Html Tookkit  🥳",
-    version: "0.0.3",
+    name: "Json to Html Toolkit  🥳",
     description:
       "Tiny library/tool to print out or insert a json object into the dom 🤘",
     features: {
       tiny: "9.11kb unpacked size",
-      no: "dependencies 😎",
-      stylable: {
-        properties: "#df3079",
-        number: "#df3079",
-        string: "#00a67d",
-        null: "#2e95d3",
-        boolean: "#2e95d3",
-        braces: "#d9d9e3",
-        brackets: "#d9d9e3",
-        comma: "#d9d9e3",
-        semi: "#d9d9e3",
-      },
+      dependencies: "none",
+      stylable:"Just the way you like it! 😎",
     },
     isAwesome: true,
   };
 </script>
 
-<div>
-  {@html toHtmlString(json, { space: 4 })}
-</div>
+<Typewriter mode="cascade">
+  <div>
+    {@html toHtmlString(json, { space: 4 })}
+  </div>
+</Typewriter>
 
 <style>
   div {
+    display: flex;
+    padding: 0 10%;
+    justify-content: start;
+    align-items: center;
+    height: 45vh;
     background-color: black;
   }
 
