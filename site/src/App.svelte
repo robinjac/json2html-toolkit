@@ -2,29 +2,34 @@
   import { toHtmlString } from "json2html-toolkit";
 
   const json = {
-    name: "John Doe",
-    age: 30,
-    email: "john.doe@example.com",
-    address: {
-      street: "123 Main Street",
-      city: "Anytown",
-      state: "Anystate",
-      zip: "12345",
+    "Json to": "Html Tookkit  🥳",
+    version: "0.0.3",
+    description:
+      "Tiny library/tool to print out or insert a json object into the dom 🤘",
+    features: {
+      tiny: "9.11kb unpacked size",
+      no: "dependencies 😎",
+      stylable: {
+        properties: "#df3079",
+        number: "#df3079",
+        string: "#00a67d",
+        null: "#2e95d3",
+        boolean: "#2e95d3",
+        braces: "#d9d9e3",
+        brackets: "#d9d9e3",
+        comma: "#d9d9e3",
+        semi: "#d9d9e3",
+      },
     },
-    isStudent: false,
-    hobbies: ["reading", "running", "gardening"],
+    isAwesome: true,
   };
-
-  const result = toHtmlString(json, { space: 4 });
 </script>
 
 <div>
-  {@html result}
+  {@html toHtmlString(json, { space: 4 })}
 </div>
 
-
 <style>
-
   div {
     background-color: black;
   }
