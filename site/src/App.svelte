@@ -1,11 +1,7 @@
 <script lang="ts">
   import { toHtmlString } from "json2html-toolkit";
   import Typewriter from "svelte-typewriter";
-  import {
-    randomHue,
-    complementaryHue,
-    averageHue,
-  } from "./utils";
+  import { randomHue, complementaryHue, averageHue } from "./utils";
 
   const json = {
     name: "Json to Html Toolkit 🥳",
@@ -33,21 +29,37 @@
   const hue_ = complementaryHue(avgHue);
 
   // Convert hues to RGB
-  let colors = [...hues, hue_, hue_ + 30].map(
+  let colors = [...hues, hue_, hue_ + 30, complementaryHue(hue_ + 30)].map(
     (hue, i) => `hsl(${hue}, ${i > sections - 1 ? 50 : 100}%, 50%)`
   );
 </script>
 
 <Typewriter mode="cascade" interval={60}>
   <div
-    style={`--color1: ${colors[0]}; --color2: ${colors[1]}; --color3: ${colors[2]};  --gradient-from: ${colors[3]}; --gradient-to: ${colors[4]}`}
+    class="json-box"
+    style={`--color1: ${colors[0]}; --color2: ${colors[1]}; --color3: ${colors[2]};  --gradient-from: ${colors[3]}; --gradient-to: ${colors[4]}; --border-color: ${colors[5]}`}
   >
     {@html toHtmlString(json, { space: 4 })}
   </div>
 </Typewriter>
 
+<code class="copy-box">npm install json2html-toolkit</code>
+
 <style>
-  div {
+  :root {
+    --copy-background-color: rgb(39 39 42);
+  }
+
+  .copy-box {
+    display: inline-flex;
+    color: white;
+    background-color: var(--copy-background-color);
+    padding: 18rem;
+    border-radius: 16px;
+    font-size: 16rem;
+  }
+
+  .json-box {
     display: flex;
     padding: 140rem;
     justify-content: start;
@@ -59,6 +71,8 @@
       var(--gradient-from),
       var(--gradient-to)
     );
+    border-bottom: 10px solid;
+    border-color: var(--border-color);
     --json2html-properties: var(--color1);
     --json2html-number: var(--color1);
     --json2html-string: var(--color2);
