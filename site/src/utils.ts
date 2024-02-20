@@ -1,49 +1,19 @@
-export type HexColor =
-  `#${string}${string}${string}${string}${string}${string}`;
-export type ShortHexColor = `#${string}${string}${string}`;
-export type ContrastColors = {
-  [hexcolor: HexColor]: { lightColor: ShortHexColor; darkColor: ShortHexColor };
-};
-
-const MIN_CONTRAST_RATIO = 8.5;
-const DARK_COLOR_LUMINANCE_FACTOR = 1.5;
-
-const luminance = (color: HexColor) => {
-  const rgb = parseInt(color.substring(1), 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = (rgb >> 0) & 0xff;
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-};
-
-function adjustColor(color: HexColor, targetLuminance: number): ShortHexColor {
-  const currentLuminance = luminance(color);
-  const ratio = targetLuminance / currentLuminance;
-  const sqrtRatio = Math.sqrt(ratio);
-
-  let r = parseInt(color.substring(1, 3), 16) * sqrtRatio;
-  let g = parseInt(color.substring(3, 5), 16) * sqrtRatio;
-  let b = parseInt(color.substring(5, 7), 16) * sqrtRatio;
-
-  // Clamp values within valid range (0 to 255)
-  r = Math.min(Math.max(r, 0), 255);
-  g = Math.min(Math.max(g, 0), 255);
-  b = Math.min(Math.max(b, 0), 255);
-
-  return `#${Math.round(r).toString(16).padStart(2, "0")}${Math.round(g)
-    .toString(16)
-    .padStart(2, "0")}${Math.round(b).toString(16).padStart(2, "0")}`;
+// Function to generate a random hue value between 0 and 360
+export function randomHue() {
+  return Math.floor(Math.random() * 360);
 }
 
-export function getContrastColors(colors: HexColor[]) {
-  const contrastColors: ContrastColors = {};
+// Function to generate a complementary hue
+export function complementaryHue(hue: number) {
+  return (hue + 180) % 360;
+}
 
-  for (const color of colors) {
-    const targetLuminance = luminance(color) * MIN_CONTRAST_RATIO;
-    const lightColor = adjustColor(color, targetLuminance);
-    const darkColor = adjustColor(color, targetLuminance * DARK_COLOR_LUMINANCE_FACTOR);
-    contrastColors[color] = { lightColor, darkColor };
-  }
-
-  return contrastColors;
+export function averageHue(hues: number[]) {
+  let sumX = 0;
+  let sumY = 0;
+  hues.forEach((hue) => {
+    sumX += Math.cos((hue * Math.PI) / 180);
+    sumY += Math.sin((hue * Math.PI) / 180);
+  });
+  return (Math.atan2(sumY, sumX) * 180) / Math.PI;
 }
