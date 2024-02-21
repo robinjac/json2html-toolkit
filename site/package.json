@@ -17,7 +17,6 @@
     "tslib": "^2.6.2"
   },
   "dependencies": {
-    "json2html-toolkit": "^0.0.3",
-    "svelte-typewriter": "^3.2.3"
+    "json2html-toolkit": "^0.0.3"
   }
 }
