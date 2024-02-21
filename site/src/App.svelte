@@ -28,7 +28,7 @@
   );
 
   $: colors = $hues.map(
-    (hue, i) => `hsl(${Math.round(hue)},${i > 2 ? 50 : 100}%, 50%)`
+    (hue, i) => `hsl(${Math.round(hue)},${i > 1 ? 50 : 100}%, 50%)`
   );
 
   onMount(() => {
@@ -68,6 +68,7 @@
     align-items: start;
     height: 15vh;
     font-size: 16rem;
+    text-shadow: 1rem 1rem 1rem rgba(0, 0, 0, 0.5);
     background: linear-gradient(
       200deg,
       var(--gradient-from),
