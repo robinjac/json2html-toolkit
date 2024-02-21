@@ -2,8 +2,7 @@
   import { toHtmlString } from "json2html-toolkit";
   import { tweened } from "svelte/motion";
   import { onMount } from "svelte";
-  import { cubicInOut } from "svelte/easing";
-  import { randomHue, complementaryHue, averageHue } from "./utils";
+  import { randomHue, complementaryHue } from "./utils";
 
   const json = {
     name: "Json to Html Toolkit 🥳",
@@ -16,41 +15,32 @@
     },
   };
 
-  const sections = 3;
-
-  // Generate a random base hue
-  let baseHue = randomHue();
+  const baseHue = randomHue();
+  const fgHues = [baseHue, baseHue + 90];
+  const bgBaseHue = complementaryHue(baseHue + 45);
 
   // Generate a random base hue
   let hues = tweened(
-    [0, 1, 2].map(() => Math.round(baseHue + (80 - Math.random() * 80))),
+    [...fgHues, bgBaseHue, bgBaseHue - 45, complementaryHue(bgBaseHue - 45)],
     {
       duration: 1000,
-      easing: cubicInOut,
     }
   );
 
-  let colors = ["", "", "", "", ""];
-
-  $: {
-    const avgHue = averageHue($hues);
-    const hue_ = Math.round(complementaryHue(avgHue));
-
-    colors = [...$hues, hue_, hue_ + 30, complementaryHue(hue_ + 30)].map(
-      (hue, i) => `hsl(${hue}, ${i > sections - 1 ? 50 : 100}%, 50%)`
-    );
-  }
+  $: colors = $hues.map(
+    (hue, i) => `hsl(${Math.round(hue)},${i > 2 ? 50 : 100}%, 50%)`
+  );
 
   onMount(() => {
     setInterval(() => {
-      $hues = $hues.map(hue =>hue + 10)
+      $hues = $hues.map((hue) => hue + 20);
     }, 1000);
   });
 </script>
 
 <div
   class="json-box"
-  style={`--color1: ${colors[0]}; --color2: ${colors[1]}; --color3: ${colors[2]};  --gradient-from: ${colors[3]}; --gradient-to: ${colors[4]}; --border-color: ${colors[5]}`}
+  style={`--color1: ${colors[0]}; --color2: ${colors[1]};  --gradient-from: ${colors[2]}; --gradient-to: ${colors[3]}; --border-color: ${colors[4]}`}
 >
   {@html toHtmlString(json, { space: 4 })}
 </div>
@@ -86,14 +76,14 @@
     border-bottom: 10px solid;
     border-color: var(--border-color);
     --json2html-properties: var(--color1);
-    --json2html-number: var(--color1);
+    --json2html-number: var(--color2);
     --json2html-string: var(--color2);
     --json2html-null: var(--color2);
-    --json2html-boolean: var(--color3);
-    --json2html-braces: var(--color3);
-    --json2html-brackets: var(--color3);
-    --json2html-comma: var(--color3);
-    --json2html-semi: var(--color3);
+    --json2html-boolean: var(--color2);
+    --json2html-braces: var(--color1);
+    --json2html-brackets: var(--color1);
+    --json2html-comma: var(--color1);
+    --json2html-semi: var(--color1);
   }
 
   /* 
