@@ -69,7 +69,7 @@
     background-color: white;
     padding: 14rem;
     white-space: nowrap;
-    font-size: 14rem;
+    font-size: 16rem;
     border-radius: 12px;
     border: none;
     outline: none;
@@ -101,9 +101,8 @@
   .json-box {
     display: inline-flex;
     height: fit-content;
-    padding: 10rem;
+    padding: 14rem;
     font-size: 16rem;
-    text-shadow: 1rem 1rem 1rem rgba(56, 55, 55, 0.5);
     background-color: var(--card-background-color);
     border-radius: 16px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
