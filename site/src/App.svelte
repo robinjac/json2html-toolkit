@@ -67,24 +67,27 @@
     justify-content: center;
     align-items: center;
     background-color: white;
-    padding: 14rem;
+    padding: 0 14rem;
     white-space: nowrap;
     font-size: 16rem;
     border-radius: 12px;
     border: none;
     outline: none;
     cursor: pointer;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    height: 44rem;
   }
 
   .copy-box {
     display: grid;
     grid-template-columns: 1fr 20rem;
     gap: 0 10rem;
+    height: 48rem;
     justify-content: center;
     align-items: center;
     color: white;
     background-color: var(--card-background-color);
-    padding: 14rem;
+    padding: 0 14rem;
     border-radius: 12px;
     font-size: 14rem;
     white-space: nowrap;
