@@ -53,29 +53,12 @@
       <span>$ npm install json2html-toolkit</span>
       <CopyIcon />
     </code>
-    <button>Get started</button>
   </div>
 </div>
 
 <style>
   :root {
     --card-background-color: rgb(39 39 42);
-  }
-
-  button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    padding: 0 14rem;
-    white-space: nowrap;
-    font-size: 16rem;
-    border-radius: 12px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    height: 44rem;
   }
 
   .copy-box {
@@ -96,7 +79,7 @@
   }
 
   .section-group {
-    padding: 20rem 0;
+    padding: 28rem 0;
     display: grid;
     gap: 10rem;
   }
