@@ -13,7 +13,8 @@
     "package": "npm pack --workspace dist",
     "publish-package": "npm publish --workspace dist",
     "start:site": "npm start --workspace site",
-    "install:site": "npm install --workspace site"
+    "install:site": "npm install --workspace site",
+    "build:site": "npm run build --workspace site"
   },
   "devDependencies": {
     "typescript": "^5.2.2",

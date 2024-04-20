@@ -1,0 +1,84 @@
+name: Update Daily Sites
+
+on: [push, delete]
+
+concurrency:
+  group: ${{ github.event.ref }}${{ github.actor }}
+  cancel-in-progress: true
+jobs:
+  delete-from-daily:
+    if: ${{ github.event_name == 'delete' && github.event.ref_type == 'branch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Store Slugified Ref Name
+        run: |
+          echo "REF_SLUG=$(echo ${{ github.event.ref }} | sed 's@^refs/heads/@@' | tr -s '/' '-')" >> $GITHUB_ENV
+
+          echo "REPO_SLUG=$(echo ${{ github.repository }} | sed 's/\//-/g')" >> $GITHUB_ENV
+
+      - name: Create Temporary Folder tmp
+        run: mkdir tmp
+
+      - name: Clone Daily Sites Repository Into tmp
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name ${{ github.actor }}
+          git clone --single-branch --branch master https://${{ secrets.API_TOKEN_GITHUB }}@github.com/robinjac/daily-sites.git tmp
+
+      - name: Delete Branch Folder
+        run: |
+          rm -rf tmp/${{ env.REPO_SLUG }}/${{ env.REF_SLUG  }}/
+
+      - name: Add and Push Changes to Daily Sites Repository
+        run: |
+          git -C tmp add .
+          git -C tmp commit --allow-empty --message "[GHA] Delete ${{ github.repository }} ${{ env.REF_SLUG }}"
+          git -C tmp push -u origin HEAD:master
+
+  push-to-daily:
+    if: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/heads/') && !contains(github.actor, '[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Store Slugified Ref Name
+        run: |
+          echo "REF_SLUG=$(echo ${{ github.event.ref }} | sed 's@^refs/heads/@@' | tr -s '/' '-')" >> $GITHUB_ENV
+
+          echo "REPO_SLUG=$(echo ${{ github.repository }} | sed 's/\//-/g')" >> $GITHUB_ENV
+
+      - name: Create Temporary Folder tmp
+        run: mkdir tmp
+
+      - name: Clone Daily Sites Repository Into tmp
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name ${{ github.actor }}
+          git clone --single-branch --branch master https://${{ secrets.API_TOKEN_GITHUB }}@github.com/robinjac/daily-sites.git tmp
+
+      - name: Install Dependencies and Build
+        run: |
+          npm install
+          npm run build:site
+
+      - name: Copy Built Files to Branch Folder
+        run: |
+          rm -rf tmp/${{ env.REPO_SLUG }}/${{ env.REF_SLUG  }}/
+          mkdir -p tmp/${{ env.REPO_SLUG }}/${{ env.REF_SLUG }}/branch
+          cp -a site/dist/. tmp/${{ env.REPO_SLUG }}/${{ env.REF_SLUG }}/branch
+
+      - name: Create Branch Meta Data
+        run: |
+          cat << EOF > "tmp/${{ env.REPO_SLUG }}/${{ env.REF_SLUG }}/branch.json" 
+          {
+            "name": "${{ env.REF_SLUG }}",
+            "date": "$(date -u)"
+          }
+          EOF
+
+      - name: Add and Push Changes to Daily Sites Repository
+        run: |
+          git -C tmp add .
+          git -C tmp commit --allow-empty --message "[GHA] Push ${{ github.repository }} ${{ env.REF_SLUG }}"
+          git -C tmp push -u origin HEAD:master
